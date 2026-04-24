@@ -10,7 +10,7 @@ export async function GET(request) {
             return new Response("Search query required", { status: 400 });
         }
 
-        const doctorsCollection = db("doctors");
+        const doctorsCollection = await db("doctors");
         const results = await doctorsCollection.find({
             $or: [
                 { name: { $regex: query, $options: "i" } },

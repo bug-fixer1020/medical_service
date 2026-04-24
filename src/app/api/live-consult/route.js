@@ -1,7 +1,9 @@
 import db from "@/app/lib/db"
+import { ObjectId } from "mongodb";
+
 export async function GET(request) {
   try {
-    const liveconsult = db("live-consult");
+    const liveconsult = await db("live-consult");
     const liveconsults = await liveconsult.find({}).toArray();
     return new Response(JSON.stringify(liveconsults), { status: 200 });
   } catch (error) {
@@ -14,7 +16,7 @@ export async function PUT(request) {
   try {
     const body = await request.json();
     const { _id, ...updateData } = body;
-    const liveconsult = db("live-consult");
+    const liveconsult = await db("live-consult");
 
     const result = await liveconsult.updateOne(
       { _id: new ObjectId(_id) },
@@ -33,7 +35,7 @@ export async function DELETE(request) {
   try {
     const body = await request.json();
     const { id } = body;
-    const liveconsult = db("live-consult");
+    const liveconsult = await db("live-consult");
 
     const result = await liveconsult.deleteOne({ _id: new ObjectId(id) });
 

@@ -8,7 +8,7 @@ import { ObjectId } from "mongodb";
 
 export async function GET(request) {
   try {
-    const doctorsCollection = db("doctors");
+    const doctorsCollection = await db("doctors");
     const doctors = await doctorsCollection.find({}).toArray();
     return new Response(JSON.stringify(doctors), { status: 200 });
   } catch (error) {
@@ -22,7 +22,7 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const body = await request.json();
-    const doctorsCollection = db("doctors");
+    const doctorsCollection = await db("doctors");
 
     // Add timestamps
     const doctorData = {
@@ -54,7 +54,7 @@ export async function PUT(request) {
   try {
     const body = await request.json();
     const { _id, ...updateData } = body;
-    const doctorsCollection = db("doctors");
+    const doctorsCollection = await db("doctors");
 
     const result = await doctorsCollection.updateOne(
       { _id: new ObjectId(_id) },
@@ -73,7 +73,7 @@ export async function DELETE(request) {
   try {
     const body = await request.json();
     const { id } = body;
-    const doctorsCollection = db("doctors");
+    const doctorsCollection = await db("doctors");
 
     const result = await doctorsCollection.deleteOne({ _id: new ObjectId(id) });
 

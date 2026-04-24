@@ -10,7 +10,7 @@ export async function GET(request) {
       return new Response("Search query required", { status: 400 });
     }
     
-    const liveconsult = db("live-consult");
+    const liveconsult = await db("live-consult");
     const results = await liveconsult.find({
       $or: [
         { name: { $regex: query, $options: "i" } },
