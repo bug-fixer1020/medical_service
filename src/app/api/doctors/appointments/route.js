@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import connectDB from '@/lib/mongodb';
+import db from '@/app/lib/db';
 
 export async function GET(req) {
   try {
@@ -17,8 +17,7 @@ export async function GET(req) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const db = await connectDB();
-    const appointmentsCollection = db.collection('appointment'); // Your existing collection
+    const appointmentsCollection = await db('appointment');
 
     // Fetch only paid appointments for this doctor
     const appointments = await appointmentsCollection

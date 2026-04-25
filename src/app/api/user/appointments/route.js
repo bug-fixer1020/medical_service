@@ -17,8 +17,7 @@ export async function GET(req) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const findfromdb = await db();
-    const appointmentsCollection = findfromdb.collection('appointment'); // Your existing collection
+    const appointmentsCollection = await db('appointment');
 
     // Fetch only paid appointments for this user
     const appointments = await appointmentsCollection

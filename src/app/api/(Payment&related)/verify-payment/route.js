@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { connectDB } from '@/lib/mongodb';
-import Appointment from '@/models/Appointment';
+import db from '@/app/lib/db';
 
 export async function GET(req) {
     const { searchParams } = new URL(req.url);
@@ -10,9 +9,9 @@ export async function GET(req) {
         return NextResponse.json({ error: 'Session ID required' }, { status: 400 });
     }
 
-    await connectDB();
+    const appointmentsCollection = await db('appointment');
 
-    const appointment = await Appointment.findOne({ stripeSessionId: sessionId });
+    const appointment = await appointmentsCollection.findOne({ stripeSessionId: sessionId });
 
     if (!appointment) {
         return NextResponse.json({ error: 'Appointment not found' }, { status: 404 });

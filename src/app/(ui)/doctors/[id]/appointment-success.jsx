@@ -1,10 +1,18 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { CheckCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 export default function AppointmentSuccess() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><Loader2 className="animate-spin text-blue-500" size={40} /></div>}>
+      <AppointmentSuccessContent />
+    </Suspense>
+  );
+}
+
+function AppointmentSuccessContent() {
     const searchParams = useSearchParams();
     const sessionId = searchParams.get("session_id");
     const router = useRouter();

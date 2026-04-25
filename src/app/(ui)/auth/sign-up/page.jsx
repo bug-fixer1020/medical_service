@@ -10,6 +10,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { signIn, getSession, useSession } from "next-auth/react";
 
 export default function SingUpPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center p-6"><div className="animate-pulse">Loading...</div></div>}>
+      <SignUpForm />
+    </Suspense>
+  );
+}
+
+function SignUpForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { status } = useSession();
@@ -123,7 +131,6 @@ export default function SingUpPage() {
   const togglePassword = () => setShowPassword(!showPassword);
 
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center p-6"><div className="animate-pulse">Loading...</div></div>}>
       <div className="min-h-screen flex items-center justify-center p-6 font-sans text-black">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -235,6 +242,5 @@ export default function SingUpPage() {
           </p>
         </motion.div>
       </div>
-    </Suspense>
   );
 }

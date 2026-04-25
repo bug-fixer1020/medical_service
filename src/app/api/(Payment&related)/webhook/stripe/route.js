@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import connectDB from '@/lib/mongodb';
+import db from '@/app/lib/db';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -22,8 +22,7 @@ export async function POST(req) {
     const session = event.data.object;
     
     try {
-      const db = await connectDB();
-      const appointmentsCollection = db.collection('appointment'); // Your existing collection
+      const appointmentsCollection = await db('appointment');
       
       const {
         doctorName,
